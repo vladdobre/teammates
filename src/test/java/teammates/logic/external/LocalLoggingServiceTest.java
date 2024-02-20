@@ -13,7 +13,6 @@ import teammates.common.datatransfer.logs.LogDetails;
 import teammates.main.BranchCoverageInstrumentation;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Field;
 /**
  * SUT: {@link LocalLoggingService}.
  */
@@ -25,7 +24,7 @@ public class LocalLoggingServiceTest extends BaseTestCase {
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction4, 4);
+        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction4, 4, 14);
     }
     
     @Test
