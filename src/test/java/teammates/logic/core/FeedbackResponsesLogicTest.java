@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -32,6 +33,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.main.BranchCoverageInstrumentation;
 import teammates.test.AssertHelper;
 
 /**
@@ -45,7 +47,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
-
     private DataBundle questionTypeBundle;
     private DataBundle responseVisibilityBundle;
 
@@ -65,6 +66,11 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         removeAndRestoreDataBundle(loadDataBundle("/SpecialCharacterTest.json"));
         removeAndRestoreDataBundle(questionTypeBundle);
         removeAndRestoreDataBundle(responseVisibilityBundle);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction5, 5, 9);
     }
 
     @Test
@@ -692,7 +698,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         Set<String> studentsEmailInTeam3 = new HashSet<>(Arrays.asList(student6.getEmail(), student7.getEmail()));
         Set<String> studentsEmailInTeam4 = new HashSet<>(Arrays.asList(student8.getEmail()));
         Set<String> studentsEmailEmpty = Collections.emptySet();
-
         ______TS("test if visible to giver");
 
         assertTrue(frLogic.isResponseVisibleForUser(student1.getEmail(), false, student1, studentsEmailInTeam1,
