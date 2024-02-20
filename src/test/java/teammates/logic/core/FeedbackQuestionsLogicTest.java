@@ -27,6 +27,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.main.BranchCoverageInstrumentation;
+
+import org.testng.annotations.AfterClass;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -49,6 +52,13 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     public void beforeMethod() {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
+    }
+
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction1, 1, 45);
+
     }
 
     @Test
