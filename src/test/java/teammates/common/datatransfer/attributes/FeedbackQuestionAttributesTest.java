@@ -819,6 +819,73 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(feedbackQuestion.equals(3));
     }
 
+        @Test
+    public void testEqualsGiverType(){
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionSame = FeedbackQuestionAttributes.builder()
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .build();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionSame));
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
+
+    @Test
+    public void testEqualsQuestionNumber(){
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withQuestionNumber(5)
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionSame = FeedbackQuestionAttributes.builder()
+                .withQuestionNumber(5)
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withQuestionNumber(4)
+                .build();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionSame));
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
+
+    @Test
+    public void testEqualsQuestionDescription(){
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withQuestionDescription("Description")
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionSame = FeedbackQuestionAttributes.builder()
+                .withQuestionDescription("Description")
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withQuestionDescription("Other Description")
+                .build();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionSame));
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
+
+    @Test
+    public void testEqualsMixedParameters(){
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withQuestionDescription("Description")
+                .withQuestionNumber(5)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.INSTRUCTORS)
+                .build();
+
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withQuestionDescription("Description")
+                .withQuestionNumber(5)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.STUDENTS)
+                .build();
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
+
     @Test
     public void testHashCode() {
         FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
