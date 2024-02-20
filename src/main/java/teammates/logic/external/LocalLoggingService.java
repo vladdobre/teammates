@@ -162,7 +162,7 @@ public class LocalLoggingService implements LogService {
         }
         RequestLogDetails requestDetails = (RequestLogDetails) details;
         if (actionClassFilter != null && !actionClassFilter.equals(requestDetails.getActionClass())) {
-           BranchCoverageInstrumentation.coverageFunction4.put(3, true);
+            BranchCoverageInstrumentation.coverageFunction4.put(3, true);
             return false;
         }
         if (statusFilter != null && !statusFilter.equals(String.valueOf(requestDetails.getResponseStatus()))) {
@@ -170,6 +170,7 @@ public class LocalLoggingService implements LogService {
             return false;
         }
         if (latencyFilter != null) {
+            BranchCoverageInstrumentation.coverageFunction4.put(5, true);
             Pattern p = Pattern.compile("^(>|>=|<|<=) *(\\d+)$");
             Matcher m = p.matcher(latencyFilter);
             long logLatency = ((RequestLogDetails) details).getResponseTime();
@@ -200,9 +201,9 @@ public class LocalLoggingService implements LogService {
                 }
             }
             if (!isFilterSatisfied) {
+                BranchCoverageInstrumentation.coverageFunction4.put(13, true);
                 return false;
             }
-            BranchCoverageInstrumentation.coverageFunction4.put(5, true);
         }
         RequestLogUser userInfo = requestDetails.getUserInfo();
         if (regkeyFilter != null && (userInfo == null || !regkeyFilter.equals(userInfo.getRegkey()))) {
