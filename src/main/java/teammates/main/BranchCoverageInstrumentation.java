@@ -21,9 +21,10 @@ public class BranchCoverageInstrumentation {
             writer.write("#########Function" + functionNumber + "#########\n");
 
             int coveredBranches = 0;
-            for (Map.Entry<Integer, Boolean> entry : coverageFunction.entrySet()) {
-                writer.write("Branch " + entry.getKey() + ": " + (entry.getValue() ? "Covered\n" : "Not Covered\n"));
-                if (entry.getValue()) {
+            for (int i = 1; i <= numberOfBranches; i++) {
+                boolean covered = coverageFunction.containsKey(i) ? coverageFunction.get(i) : false;
+                writer.write("Branch " + i + ": " + (covered ? "Covered\n" : "Not Covered\n"));
+                if (covered) {
                     coveredBranches++;
                 }
             }

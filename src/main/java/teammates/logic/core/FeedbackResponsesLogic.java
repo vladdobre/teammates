@@ -654,7 +654,7 @@ public final class FeedbackResponsesLogic {
             String userEmail, boolean isInstructor, StudentAttributes student,
             Set<String> studentsEmailInTeam, FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
-            BranchCoverageInstrumentation.coverageFunction5.put(0, true);
+            BranchCoverageInstrumentation.coverageFunction5.put(1, true);
         boolean isVisibleResponse = false;
         if (isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
                 || response.getRecipient().equals(userEmail)
@@ -662,7 +662,7 @@ public final class FeedbackResponsesLogic {
                 || response.getGiver().equals(userEmail)
                 || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
-            BranchCoverageInstrumentation.coverageFunction5.put(1, true);
+            BranchCoverageInstrumentation.coverageFunction5.put(2, true);
         } else if (studentsEmailInTeam != null && !isInstructor) {
             if ((relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
@@ -670,21 +670,21 @@ public final class FeedbackResponsesLogic {
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;
-                BranchCoverageInstrumentation.coverageFunction5.put(3, true);
+                BranchCoverageInstrumentation.coverageFunction5.put(4, true);
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                     && response.getGiver().equals(student.getTeam())) {
                 isVisibleResponse = true;
-                BranchCoverageInstrumentation.coverageFunction5.put(4, true);
+                BranchCoverageInstrumentation.coverageFunction5.put(5, true);
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                     && studentsEmailInTeam.contains(response.getGiver())) {
                 isVisibleResponse = true;
-                BranchCoverageInstrumentation.coverageFunction5.put(5, true);
+                BranchCoverageInstrumentation.coverageFunction5.put(6, true);
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                     && studentsEmailInTeam.contains(response.getRecipient())) {
                 isVisibleResponse = true;
-                BranchCoverageInstrumentation.coverageFunction5.put(6, true);
+                BranchCoverageInstrumentation.coverageFunction5.put(7, true);
             }
-            BranchCoverageInstrumentation.coverageFunction5.put(2, true);
+            BranchCoverageInstrumentation.coverageFunction5.put(3, true);
         }
         if (isVisibleResponse && instructor != null) {
             boolean isGiverSectionRestricted =
@@ -702,9 +702,9 @@ public final class FeedbackResponsesLogic {
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
                 isVisibleResponse = false;
-                BranchCoverageInstrumentation.coverageFunction5.put(8, true);
+                BranchCoverageInstrumentation.coverageFunction5.put(9, true);
             }
-            BranchCoverageInstrumentation.coverageFunction5.put(7, true);
+            BranchCoverageInstrumentation.coverageFunction5.put(8, true);
         }
         return isVisibleResponse;
     }
