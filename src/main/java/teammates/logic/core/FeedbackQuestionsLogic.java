@@ -27,6 +27,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.main.BranchCoverageInstrumentation;
 
 /**
  * Handles operations related to feedback questions.
@@ -303,10 +304,12 @@ public final class FeedbackQuestionsLogic {
         String giverTeam = "";
         String giverSection = "";
         if (isStudentGiver) {
+            BranchCoverageInstrumentation.coverageFunction1.put(1, true);
             giverEmail = studentGiver.getEmail();
             giverTeam = studentGiver.getTeam();
             giverSection = studentGiver.getSection();
         } else if (isInstructorGiver) {
+            BranchCoverageInstrumentation.coverageFunction1.put(2, true);
             giverEmail = instructorGiver.getEmail();
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
             giverSection = Const.DEFAULT_SECTION;
@@ -317,31 +320,46 @@ public final class FeedbackQuestionsLogic {
 
         switch (recipientType) {
         case SELF:
+            BranchCoverageInstrumentation.coverageFunction1.put(3, true);
+            
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
+                BranchCoverageInstrumentation.coverageFunction1.put(16, true);
                 recipients.put(giverTeam,
                        new FeedbackQuestionRecipient(giverTeam, giverTeam));
             } else {
+                BranchCoverageInstrumentation.coverageFunction1.put(17, true);
                 recipients.put(giverEmail,
                         new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
             }
             break;
         case STUDENTS:
+            BranchCoverageInstrumentation.coverageFunction1.put(4, true);
+
         case STUDENTS_EXCLUDING_SELF:
+            BranchCoverageInstrumentation.coverageFunction1.put(5, true);
+
         case STUDENTS_IN_SAME_SECTION:
+            BranchCoverageInstrumentation.coverageFunction1.put(6, true);   
             List<StudentAttributes> studentList;
             if (courseRoster == null) {
+                BranchCoverageInstrumentation.coverageFunction1.put(18, true);
                 if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(20, true);
                     studentList = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
                 } else {
+                    BranchCoverageInstrumentation.coverageFunction1.put(21, true);
                     studentList = studentsLogic.getStudentsForCourse(question.getCourseId());
                 }
             } else {
+                BranchCoverageInstrumentation.coverageFunction1.put(19, true);
                 if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(22, true);
                     final String finalGiverSection = giverSection;
                     studentList = courseRoster.getStudents().stream()
                             .filter(studentAttributes -> studentAttributes.getSection()
                                     .equals(finalGiverSection)).collect(Collectors.toList());
                 } else {
+                    BranchCoverageInstrumentation.coverageFunction1.put(23, true);
                     studentList = courseRoster.getStudents();
                 }
             }
@@ -349,12 +367,14 @@ public final class FeedbackQuestionsLogic {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         student.getSection(), question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
+                            BranchCoverageInstrumentation.coverageFunction1.put(24, true);
                     // instructor can only see students in allowed sections for him/her
                     continue;
                 }
                 // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
                 // STUDENTS_IN_SAME_SECTION
                 if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(25, true);
                     continue;
                 }
                 recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
@@ -362,58 +382,76 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case INSTRUCTORS:
+            BranchCoverageInstrumentation.coverageFunction1.put(7, true);
+
             List<InstructorAttributes> instructorsInCourse;
             if (courseRoster == null) {
+                BranchCoverageInstrumentation.coverageFunction1.put(26, true);
                 instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.getCourseId());
             } else {
+                BranchCoverageInstrumentation.coverageFunction1.put(27, true);
                 instructorsInCourse = courseRoster.getInstructors();
             }
             for (InstructorAttributes instr : instructorsInCourse) {
+                BranchCoverageInstrumentation.coverageFunction1.put(28, true);
                 // remove hidden instructors for students
                 if (isStudentGiver && !instr.isDisplayedToStudents()) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(29, true);
                     continue;
                 }
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.getEmail())) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(30, true);
                     recipients.put(instr.getEmail(),
                             new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
                 }
             }
             break;
         case TEAMS:
+            BranchCoverageInstrumentation.coverageFunction1.put(8, true);
         case TEAMS_EXCLUDING_SELF:
+            BranchCoverageInstrumentation.coverageFunction1.put(9, true);
         case TEAMS_IN_SAME_SECTION:
+            BranchCoverageInstrumentation.coverageFunction1.put(10, true);
             Map<String, List<StudentAttributes>> teamToTeamMembersTable;
             List<StudentAttributes> teamStudents;
             if (courseRoster == null) {
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(31, true);
                     teamStudents = studentsLogic.getStudentsForSection(giverSection, question.getCourseId());
                 } else {
+                    BranchCoverageInstrumentation.coverageFunction1.put(32, true);
                     teamStudents = studentsLogic.getStudentsForCourse(question.getCourseId());
                 }
                 teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
             } else {
+                BranchCoverageInstrumentation.coverageFunction1.put(33, true);
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(34, true);
                     final String finalGiverSection = giverSection;
                     teamStudents = courseRoster.getStudents().stream()
                             .filter(student -> student.getSection().equals(finalGiverSection))
                             .collect(Collectors.toList());
                     teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
                 } else {
+                    BranchCoverageInstrumentation.coverageFunction1.put(35, true);
                     teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
                 }
             }
             for (Map.Entry<String, List<StudentAttributes>> team : teamToTeamMembersTable.entrySet()) {
+                BranchCoverageInstrumentation.coverageFunction1.put(36, true);
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         team.getValue().iterator().next().getSection(),
                         question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
+                            BranchCoverageInstrumentation.coverageFunction1.put(37, true);
                     // instructor can only see teams in allowed sections for him/her
                     continue;
                 }
                 // Ensure student('s team) does not evaluate own team if it's TEAMS_EXCLUDING_SELF or
                 // TEAMS_IN_SAME_SECTION
                 if (giverTeam.equals(team.getKey()) && generateOptionsFor != FeedbackParticipantType.TEAMS) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(38, true);
                     continue;
                 }
                 // recipientEmail doubles as team name in this case.
@@ -421,40 +459,53 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case OWN_TEAM:
+            BranchCoverageInstrumentation.coverageFunction1.put(11, true);
+
             recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
             break;
         case OWN_TEAM_MEMBERS:
+            BranchCoverageInstrumentation.coverageFunction1.put(12, true);
             List<StudentAttributes> students;
             if (courseRoster == null) {
+                BranchCoverageInstrumentation.coverageFunction1.put(39, true);
                 students = studentsLogic.getStudentsForTeam(giverTeam, question.getCourseId());
             } else {
+                BranchCoverageInstrumentation.coverageFunction1.put(40, true);
                 students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (StudentAttributes student : students) {
+                BranchCoverageInstrumentation.coverageFunction1.put(41, true);
                 if (!student.getEmail().equals(giverEmail)) {
+                    BranchCoverageInstrumentation.coverageFunction1.put(42, true);
                     recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
                             student.getSection(), student.getTeam()));
                 }
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            BranchCoverageInstrumentation.coverageFunction1.put(13, true);
             List<StudentAttributes> teamMembers;
             if (courseRoster == null) {
+                BranchCoverageInstrumentation.coverageFunction1.put(43, true);
                 teamMembers = studentsLogic.getStudentsForTeam(giverTeam, question.getCourseId());
             } else {
+                BranchCoverageInstrumentation.coverageFunction1.put(44, true);
                 teamMembers = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
+                BranchCoverageInstrumentation.coverageFunction1.put(45, true);
                 recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
                         student.getSection(), student.getTeam()));
             }
             break;
         case NONE:
+            BranchCoverageInstrumentation.coverageFunction1.put(14, true);
             recipients.put(Const.GENERAL_QUESTION,
                     new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
             break;
         default:
+            BranchCoverageInstrumentation.coverageFunction1.put(15, true);
             break;
         }
         return recipients;
