@@ -5,12 +5,10 @@ import teammates.test.BaseTestCase;
 import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.logs.LogDetails;
-import teammates.main.BranchCoverageInstrumentation;
 
 import java.lang.reflect.Method;
 /**
@@ -20,11 +18,6 @@ public class LocalLoggingServiceTest extends BaseTestCase {
 
     @BeforeMethod
     public void refreshTestData() { 
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction4, 4, 14);
     }
     
     @Test

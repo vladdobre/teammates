@@ -27,7 +27,6 @@ import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
-import teammates.main.BranchCoverageInstrumentation;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
@@ -149,51 +148,40 @@ public class LocalLoggingService implements LogService {
 
     private boolean isRequestFilterSatisfied(LogDetails details, String actionClassFilter,
             String latencyFilter, String statusFilter, String regkeyFilter, String emailFilter, String googleIdFilter) {
-        BranchCoverageInstrumentation.coverageFunction4.put(1, true);
         if (actionClassFilter == null && latencyFilter == null && statusFilter == null
                 && regkeyFilter == null && emailFilter == null && googleIdFilter == null) {
-            BranchCoverageInstrumentation.coverageFunction4.put(2, true);
             return true;
         }
         if (details.getEvent() != LogEvent.REQUEST_LOG) {
-            BranchCoverageInstrumentation.coverageFunction4.put(3, true);
             return false;
 
         }
         RequestLogDetails requestDetails = (RequestLogDetails) details;
         if (actionClassFilter != null && !actionClassFilter.equals(requestDetails.getActionClass())) {
-            BranchCoverageInstrumentation.coverageFunction4.put(4, true);
             return false;
         }
         if (statusFilter != null && !statusFilter.equals(String.valueOf(requestDetails.getResponseStatus()))) {
-            BranchCoverageInstrumentation.coverageFunction4.put(5, true);
             return false;
         }
         if (latencyFilter != null) {
-            BranchCoverageInstrumentation.coverageFunction4.put(6, true);
             Pattern p = Pattern.compile("^(>|>=|<|<=) *(\\d+)$");
             Matcher m = p.matcher(latencyFilter);
             long logLatency = ((RequestLogDetails) details).getResponseTime();
             boolean isFilterSatisfied = false;
             if (m.matches()) {
-                BranchCoverageInstrumentation.coverageFunction4.put(7, true);
                 int time = Integer.parseInt(m.group(2));
                 switch (m.group(1)) {
                 case ">":
                     isFilterSatisfied = logLatency > time;
-                    BranchCoverageInstrumentation.coverageFunction4.put(8, true);
                     break;
                 case ">=":
                     isFilterSatisfied = logLatency >= time;
-                    BranchCoverageInstrumentation.coverageFunction4.put(9, true);
                     break;
                 case "<":
                     isFilterSatisfied = logLatency < time;
-                    BranchCoverageInstrumentation.coverageFunction4.put(10, true);
                     break;
                 case "<=":
                     isFilterSatisfied = logLatency <= time;
-                    BranchCoverageInstrumentation.coverageFunction4.put(11, true);
                     break;
                 default:
                     assert false : "Unreachable case";
@@ -201,17 +189,14 @@ public class LocalLoggingService implements LogService {
                 }
             }
             if (!isFilterSatisfied) {
-                BranchCoverageInstrumentation.coverageFunction4.put(12, true);
                 return false;
             }
         }
         RequestLogUser userInfo = requestDetails.getUserInfo();
         if (regkeyFilter != null && (userInfo == null || !regkeyFilter.equals(userInfo.getRegkey()))) {
-            BranchCoverageInstrumentation.coverageFunction4.put(13, true);
             return false;
         }
         if (emailFilter != null && (userInfo == null || !emailFilter.equals(userInfo.getEmail()))) {
-            BranchCoverageInstrumentation.coverageFunction4.put(14, true);
             return false;
         }
         return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getGoogleId());
