@@ -209,6 +209,53 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
         assertEquals(recipients.get(studentGiver.getEmail()).getName(), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
+
+        ______TS("My test1: Ensure that teams can give feedback to other teams within the same section ");
+        question = getQuestionFromDatabase("team.feedback2");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 0);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 2);
+
+
+        ______TS("My test2: Verify that students can only give feedback to other students within the same section");
+        question = getQuestionFromDatabase("feedbackToStudentsInSameSection");
+        
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+        
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 3);
+
+
+        ______TS("My test3: Test recipient fetching for team feedback without and with a course roster");
+        question = getQuestionFromDatabase("feedbackToTeamsInSameSection");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+    
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(),0);
+
+        ______TS("My test4: Test that students can give feedback to themselves and their team members");
+        question = getQuestionFromDatabase("feedbackForTeamMembersIncludingSelf");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(),4);
+
     }
 
     @Test
