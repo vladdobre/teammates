@@ -1239,6 +1239,27 @@
         "RECEIVER"
       ]
     },
+    "team.feedback2": {
+      "feedbackSessionName": "Second feedback session 1",
+      "courseId": "idOfTypicalCourse12",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to 2 other teams."
+      },
+      "questionNumber": 1,
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 2,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
     "team.members.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
@@ -1501,7 +1522,54 @@
       "showRecipientNameTo": [
         "INSTRUCTORS"
       ]
+    },
+    "feedbackToStudentsInSameSection": {
+      "feedbackSessionName": "Session for Same Section",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Feedback for students in the same section."
+      },
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS_IN_SAME_SECTION",
+      "numberOfEntitiesToGiveFeedbackTo": -1,
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"]
+    },
+    "feedbackToTeamsInSameSection": {
+      "feedbackSessionName": "Session for Teams in Same Section",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Feedback to teams in the same section."
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS_IN_SAME_SECTION",
+      "numberOfEntitiesToGiveFeedbackTo": -1,
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"]
+    },
+    "feedbackForTeamMembersIncludingSelf": {
+      "feedbackSessionName": "Team Feedback Session",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Provide feedback to your team members."
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -1,
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"]
     }
+    
+    
   },
   "feedbackResponses": {
     "response1ForQ1S1C1": {
