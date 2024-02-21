@@ -27,6 +27,30 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
     }
 
+    /**
+     * This test case is used to improve branch coverage of the validateQuestionDetails method.
+     * What the test covers:
+     * - the case where isMsqChoiceValidatable is true
+     * - isMaxSelectableChoicesEnabled true
+     * - maxSelectableChoices < 2 is false.
+     *
+     * The expected output is that the error list should contain the error message for maxSelectableChoices < 2.
+     */
+    @Test
+    public void testValidateQuestionDetails_maxSelectableChoicesLessThanTwo() {
+        FeedbackMsqQuestionDetails feedbackMsqQuestionDetails = new FeedbackMsqQuestionDetails();
+        feedbackMsqQuestionDetails.setMsqChoices(Arrays.asList("Choice 1", "Choice 2"));
+
+        //To make isMsqChoiceValidatable true
+        feedbackMsqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+
+        //To make isMaxSelectableChoicesEnabled true and maxSelectableChoices < 2
+        feedbackMsqQuestionDetails.setMaxSelectableChoices(1);
+
+        List<String> errors = feedbackMsqQuestionDetails.validateQuestionDetails();
+        assertTrue(errors.contains(FeedbackMsqQuestionDetails.MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES));
+    }
+    
     @Test
     public void testValidateQuestionDetails_choicesLessThanMinRequirement_errorReturned() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
