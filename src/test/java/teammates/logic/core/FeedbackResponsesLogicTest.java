@@ -70,7 +70,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction5, 5, 9);
+        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction5, 5, 12);
     }
 
     @Test

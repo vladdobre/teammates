@@ -29,6 +29,7 @@ public class LocalLoggingServiceTest extends BaseTestCase {
     
     @Test
     public void testIsRequestFilterSatisfied_NullFilters() throws Exception {
+        // Requirement: If filters are null, the method should return true.
         Method method = LocalLoggingService.class.getDeclaredMethod("isRequestFilterSatisfied", LogDetails.class, String.class, String.class, String.class, String.class, String.class, String.class);
         method.setAccessible(true);
         LocalLoggingService llService = new LocalLoggingService();
@@ -37,6 +38,7 @@ public class LocalLoggingServiceTest extends BaseTestCase {
 
     @Test
     public void testIsRequestFilterSatisfied_WithWrongRequestLog() throws Exception {
+        // Requirement: If the log details indicate an exception log, the method should return false.
         Method method = LocalLoggingService.class.getDeclaredMethod("isRequestFilterSatisfied", LogDetails.class, String.class, String.class, String.class, String.class, String.class, String.class);
         method.setAccessible(true);
         LocalLoggingService llService = new LocalLoggingService();
@@ -53,6 +55,7 @@ public class LocalLoggingServiceTest extends BaseTestCase {
 
     @Test
     public void testIsRequestFilterSatisfied_LatencyFilterNotNull() throws Exception {
+        // Requirement: If latency filter is not null, and response time does not match the filter, return false.
         Method method = LocalLoggingService.class.getDeclaredMethod("isRequestFilterSatisfied", LogDetails.class, String.class, String.class, String.class, String.class, String.class, String.class);
         method.setAccessible(true);
         LocalLoggingService llService = new LocalLoggingService();
@@ -66,6 +69,7 @@ public class LocalLoggingServiceTest extends BaseTestCase {
 
     @Test
     public void testIsRequestFilterSatisfied_LatencyFilterNotNull_Regex() throws Exception {
+        // Requirement: If latency filter is not null, it should match the response time using regex patterns.
         Method method = LocalLoggingService.class.getDeclaredMethod("isRequestFilterSatisfied", LogDetails.class, String.class, String.class, String.class, String.class, String.class, String.class);
         method.setAccessible(true);
         LocalLoggingService llService = new LocalLoggingService();
