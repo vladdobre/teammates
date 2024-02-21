@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -32,6 +33,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.main.BranchCoverageInstrumentation;
 import teammates.test.AssertHelper;
 
 /**
@@ -64,6 +66,11 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         removeAndRestoreDataBundle(loadDataBundle("/SpecialCharacterTest.json"));
         removeAndRestoreDataBundle(questionTypeBundle);
         removeAndRestoreDataBundle(responseVisibilityBundle);
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction5, 5, 12);
     }
 
     @Test
