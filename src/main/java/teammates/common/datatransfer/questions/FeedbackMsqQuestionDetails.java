@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
+import teammates.main.BranchCoverageInstrumentation;
 
 /**
  * Contains specific structure and processing logic for MSQ feedback questions.
@@ -114,8 +115,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
-
+            BranchCoverageInstrumentation.coverageFunction2.put(1, true);
             if (msqChoices.size() < MSQ_MIN_NUM_OF_CHOICES) {
+                BranchCoverageInstrumentation.coverageFunction2.put(2, true);
                 errors.add(MSQ_ERROR_NOT_ENOUGH_CHOICES
                            + MSQ_MIN_NUM_OF_CHOICES + ".");
             }
@@ -123,6 +125,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // If there are Empty Msq options entered trigger this error
             boolean isEmptyMsqOptionEntered = msqChoices.stream().anyMatch(msqText -> "".equals(msqText.trim()));
             if (isEmptyMsqOptionEntered) {
+                BranchCoverageInstrumentation.coverageFunction2.put(3, true);
                 errors.add(MSQ_ERROR_EMPTY_MSQ_OPTION);
             }
 
@@ -131,23 +134,27 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // the msqChoices.size() will be greater than msqWeights.size(), in that case
             // trigger this error.
             if (hasAssignedWeights && msqChoices.size() != msqWeights.size()) {
+                BranchCoverageInstrumentation.coverageFunction2.put(4, true);
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weights are not enabled, but weight list is not empty or otherWeight is not 0
             // In that case, trigger this error.
             if (!hasAssignedWeights && (!msqWeights.isEmpty() || msqOtherWeight != 0)) {
+                BranchCoverageInstrumentation.coverageFunction2.put(5, true);
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weight is enabled, but other option is disabled, and msqOtherWeight is not 0
             // In that case, trigger this error.
             if (hasAssignedWeights && !otherEnabled && msqOtherWeight != 0) {
+                BranchCoverageInstrumentation.coverageFunction2.put(6, true);
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
             // If weights are negative, trigger this error.
             if (hasAssignedWeights && !msqWeights.isEmpty()) {
+                BranchCoverageInstrumentation.coverageFunction2.put(7, true);
                 msqWeights.stream()
                         .filter(weight -> weight < 0)
                         .forEach(weight -> errors.add(MSQ_ERROR_INVALID_WEIGHT));
@@ -156,6 +163,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             // If 'Other' option is enabled, and other weight has negative value,
             // trigger this error.
             if (hasAssignedWeights && otherEnabled && msqOtherWeight < 0) {
+                BranchCoverageInstrumentation.coverageFunction2.put(8, true);
                 errors.add(MSQ_ERROR_INVALID_WEIGHT);
             }
 
@@ -163,6 +171,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             boolean isDuplicateOptionsEntered = msqChoices.stream().map(String::trim).distinct().count()
                                                 != msqChoices.size();
             if (isDuplicateOptionsEntered) {
+                BranchCoverageInstrumentation.coverageFunction2.put(9, true);
                 errors.add(MSQ_ERROR_DUPLICATE_MSQ_OPTION);
             }
         }
@@ -173,24 +182,31 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         int numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
         if (isMsqChoiceValidatable && isMaxSelectableChoicesEnabled) {
+            BranchCoverageInstrumentation.coverageFunction2.put(10, true);
             if (numOfMsqChoices < maxSelectableChoices) {
+                BranchCoverageInstrumentation.coverageFunction2.put(11, true);
                 errors.add(MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
+                BranchCoverageInstrumentation.coverageFunction2.put(12, true);
                 errors.add(MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES);
             }
         }
 
         if (isMsqChoiceValidatable && isMinSelectableChoicesEnabled) {
+            BranchCoverageInstrumentation.coverageFunction2.put(13, true);
             if (minSelectableChoices < 1) {
+                BranchCoverageInstrumentation.coverageFunction2.put(14, true);
                 errors.add(MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
             }
             if (minSelectableChoices > numOfMsqChoices) {
+                BranchCoverageInstrumentation.coverageFunction2.put(15, true);
                 errors.add(MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES);
             }
         }
 
         if (isMaxSelectableChoicesEnabled && isMinSelectableChoicesEnabled
                 && minSelectableChoices > maxSelectableChoices) {
+            BranchCoverageInstrumentation.coverageFunction2.put(16, true);
             errors.add(MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE);
         }
 
