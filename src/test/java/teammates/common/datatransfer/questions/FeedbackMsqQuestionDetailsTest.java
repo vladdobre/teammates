@@ -6,16 +6,23 @@ import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.Test;
+import org.testng.annotations.AfterClass;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCase;
+import teammates.main.BranchCoverageInstrumentation;
 
 /**
  * SUT: {@link FeedbackMsqQuestionDetails}.
  */
 public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        BranchCoverageInstrumentation.printCoverageDataToFile(BranchCoverageInstrumentation.coverageFunction2, 2, 16);
+    }
 
     @Test
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
