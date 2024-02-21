@@ -887,6 +887,38 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testEqualsCourseId(){
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withCourseId("courseId")
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionSame = FeedbackQuestionAttributes.builder()
+                .withCourseId("courseId")
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withCourseId("differentCourse")
+                .build();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionSame));
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
+
+    @Test
+    public void testEqualsFeedbackSessionName(){
+        FeedbackQuestionAttributes feedbackQuestion = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName("sessionName")
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionSame = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName("sessionName")
+                .build();
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withFeedbackSessionName("differentSession")
+                .build();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionSame));
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+    }
+
+    @Test
     public void testHashCode() {
         FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
 
